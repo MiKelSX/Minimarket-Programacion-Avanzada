@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Boleta de Venta - Almacén Doña Juanita</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: #121212; /* Color de fondo oscuro */
+            color: #ffffff; /* Color del texto */
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            margin-top: 50px;
+        }
+
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 80%;
+            color: #ffffff; /* Color del texto blanco */
+        }
+
+        table, th, td {
+            border: 1px solid #ffffff; /* Color del borde blanco */
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        .total {
+            margin: 20px auto;
+            color: #4CAF50; /* Color del texto verde */
+            font-size: 18px;
+        }
+
+        .agradecimiento {
+            margin-top: 20px;
+            color: #ffffff; /* Color del texto blanco */
+            font-size: 16px;
+        }
+
+        .volver {
+            margin-top: 20px;
+            background-color: #4CAF50; /* Color de fondo verde */
+            color: #ffffff; /* Color del texto blanco */
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <h1>Boleta de Venta - Almacén Doña Juanita</h1>
+
+    {% if detalles_venta %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for detalle in detalles_venta %}
+                    <tr>
+                        <td>{{ detalle.producto.nombre }}</td>
+                        <td>{{ detalle.producto.precio }}</td>
+                        <td>{{ detalle.cantidad }}</td>
+                        <td>{{ detalle.subtotal }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="total">
+            <strong>Total:</strong> {{ total }}
+        </div>
+
+        <div class="agradecimiento">
+            Gracias por su compra
+        </div>
+
+        <!-- Nuevo: Botón "Volver al Menú" -->
+        <a href="{% url 'menu' %}" class="volver">Volver al Menú</a>
+    {% endif %}
+</body>
+</html>
+

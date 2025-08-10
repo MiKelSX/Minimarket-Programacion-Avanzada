@@ -1,0 +1,105 @@
+<!-- cajero/templates/ventas_totales.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Almacén Doña Juanita - Ventas Totales</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: #121212; /* Color de fondo oscuro */
+            color: #ffffff; /* Color del texto */
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            margin-top: 50px;
+        }
+
+        .ventas-table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 80%;
+        }
+
+        .ventas-table, .ventas-table th, .ventas-table td {
+            border: 1px solid #ffffff; /* Color del borde blanco */
+            color: #ffffff; /* Color del texto blanco */
+        }
+
+        .ventas-table th, .ventas-table td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        .total {
+            margin: 20px auto;
+            color: #4CAF50; /* Color del texto verde */
+            font-size: 18px;
+        }
+
+        .volver {
+            margin-top: 20px;
+            background-color: #4CAF50; /* Color de fondo verde */
+            color: #ffffff; /* Color del texto blanco */
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        /* Nuevo: Estilo para el botón Reiniciar */
+        .reiniciar-btn {
+            background-color: #FF0000; /* Color de fondo rojo */
+            color: #ffffff; /* Color del texto blanco */
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Almacén Doña Juanita - Ventas Totales</h1>
+
+    <!-- Nuevo: Formulario para reiniciar datos -->
+    <form method="post" action="{% url 'reiniciar-datos' %}">
+        {% csrf_token %}
+        <button type="submit" class="reiniciar-btn">Reiniciar Datos</button>
+    </form>
+
+    <table class="ventas-table">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for venta_detalle in ventas_detalles %}
+                <tr>
+                    <td>{{ venta_detalle.producto_nombre }}</td>
+                    <td>{{ venta_detalle.cantidad }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Nuevo: Mostrar el total de ventas -->
+    <div class="total">
+        <strong>Total Ventas:</strong> {{ total_ventas }}
+    </div>
+
+    <!-- Nuevo: Botón "Volver al Menú" -->
+    <a href="{% url 'menu' %}" class="volver">Volver al Menú</a>
+</body>
+</html>
+

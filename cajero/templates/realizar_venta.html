@@ -1,0 +1,153 @@
+<!-- cajero/templates/realizar_venta.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Almacén Doña Juanita</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: #121212; /* Color de fondo oscuro */
+            color: #ffffff; /* Color del texto */
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            margin-top: 50px;
+        }
+
+        form {
+            margin: 20px auto;
+            max-width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label, input {
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50; /* Color de fondo verde */
+            color: #ffffff; /* Color del texto blanco */
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .info-table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 50%;  /* Reducir el ancho de la tabla */
+        }
+
+        .info-table, .info-table th, .info-table td {
+            border: 1px solid #ffffff; /* Color del borde blanco */
+        }
+
+        .info-table th, .info-table td {
+            padding: 6px;  /* Reducir el espacio interno */
+            text-align: left;
+        }
+
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 60%;  /* Reducir el ancho de la tabla */
+        }
+
+        table, th, td {
+            border: 1px solid #ffffff; /* Color del borde blanco */
+        }
+
+        th, td {
+            padding: 6px;
+            text-align: left;
+        }
+
+        .total {
+            margin: 20px auto;
+            color: #4CAF50; /* Color del texto verde */
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Realizar Venta</h1>
+
+    <!-- Mostrar información de productos, precios y códigos de manera más compacta -->
+    <table class="info-table">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Código</th>
+                <th>Precio</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Té</td><td>01</td><td>1500</td></tr>
+            <tr><td>Bebida</td><td>02</td><td>2000</td></tr>
+            <tr><td>Pan</td><td>03</td><td>800</td></tr>
+            <tr><td>Leche</td><td>04</td><td>1200</td></tr>
+            <tr><td>Huevo</td><td>05</td><td>140</td></tr>
+            <tr><td>Fruta</td><td>06</td><td>600</td></tr>
+            <tr><td>Dulce</td><td>07</td><td>200</td></tr>
+            <tr><td>Queso</td><td>08</td><td>1000</td></tr>
+            <tr><td>Jamón</td><td>09</td><td>1100</td></tr>
+            <tr><td>Aceite</td><td>10</td><td>1200</td></tr>
+        </tbody>
+    </table>
+
+    <form method="post" action="{% url 'venta' %}">
+        {% csrf_token %}
+        <label for="codigo_producto" style="color: #4CAF50;">Código Producto:</label>
+        <input type="text" name="codigo_producto" required>
+        <br>
+        <label for="cantidad" style="color: #4CAF50;">Cantidad:</label>
+        <input type="number" name="cantidad" required>
+        <br>
+        <input type="submit" value="Enviar">
+    </form>
+
+    {% if detalles_venta %}
+        <h2>Detalles de la Venta</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for detalle in detalles_venta %}
+                    <tr>
+                        <td>{{ detalle.producto.nombre }}</td>
+                        <td>{{ detalle.producto.precio }}</td>
+                        <td>{{ detalle.cantidad }}</td>
+                        <td>{{ detalle.subtotal }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="total">
+            <strong>Total:</strong> {{ total }}
+        </div>
+
+        <!-- Nuevo: Botón "Finalizar" -->
+        <form method="post" action="{% url 'finalizar-venta' %}">
+            {% csrf_token %}
+            <input type="submit" value="Finalizar" style="background-color: #4CAF50; color: #ffffff; border: none; padding: 10px 20px; font-size: 16px; cursor: pointer; border-radius: 5px;">
+        </form>
+    {% endif %}
+</body>
+</html>
