@@ -1,1 +1,1 @@
-# Minimarket-Programaci-n-Avanzada
+# Minimarket-Programación-Avanzada
